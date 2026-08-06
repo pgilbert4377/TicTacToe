@@ -1,29 +1,29 @@
 import java.util.*;
 public class TicTacToeGame
 {
-    String[][] board = new String[3][3];
+    String[][] board = new String[3][3]; //Creates the game board
     Scanner scan = new Scanner(System.in);
-    boolean gameOver = false;
-    String rowString;
-    String columnString;
-    int row;
-    int column;
-    int r;
-    int col;
-    int bestRow;
-    int bestCol;
-    int computerRow;
-    int computerColumn;
-    boolean twoOs = false;
-    boolean twoXs = false;
-    boolean valid = false;
-    boolean compWin = false;
-    boolean playerWin = false;
-    int ex = 0;
-    int oh = 0;
+    boolean gameOver = false; //Variable that keeps the game in play until the end
+    String rowString; //The original input into the scanner from the user, gets checked before attempt to convert into an integer
+    String columnString; //Same as rowString
+    int row; //Integer from rowString
+    int column; //Integer from columnString
+    int r; //Used throughout to limit search time
+    int col; //Same as r, but for columns
+    int bestRow; //Stored value of the row that would stop a possible win for the user
+    int bestCol; //Stored value of the column that would stop a possible user win
+    int computerRow; //Stores the random value for the row the computer will place an O in
+    int computerColumn; //Stores the random value of the column that the computer will place in O in
+    boolean twoOs = false; //Determines whether to place an O in a certain spot guaranteeing a win for the computer
+    boolean twoXs = false; //Determines whether a possible best spot has been chosen to block the user's possible win
+    boolean valid = false; //Determines whether the input of either the user or the computer is playable and therefore can continue the code
+    boolean compWin = false; //Determines if the computer won
+    boolean playerWin = false; //Determines if the user won
+    int ex = 0; //Used to tally the Xs in a row or column
+    int oh = 0; //Used to tally the Os in a row or column
     public void main()
     {
-        for(int i = 0; i < 3; i++)
+        for(int i = 0; i < 3; i++) //Creates the blank board
         {
             for(int j = 0; j < 3; j++)
             {
@@ -33,8 +33,8 @@ public class TicTacToeGame
         printBoard();
         while(!gameOver)
         {
-            bestRow = 4;
-            valid = false;
+            bestRow = 4; //Resets to 4 so program knows a best row hasn't been selected yet
+            valid = false; //Resets every iteration to ensure the next input is valid
             while(!valid)
             {
                 try{
@@ -77,7 +77,7 @@ public class TicTacToeGame
             printBoard();
             System.out.println();
             checkWin();
-            if(gameOver)
+            if(gameOver) //If the player has won, end the game
             {
                 break;
             }
@@ -100,13 +100,13 @@ public class TicTacToeGame
                             oh++;
                         }
                     }
-                    if(oh == 2 && ex == 0)
+                    if(oh == 2 && ex == 0) //If there is 2 Os and 0 Xs, there is a chance to win, computer will immediately take it
                     {
                         r = i;
                         twoOs = true;
                         break;
                     }
-                    else if(ex == 2 && oh == 0)
+                    else if(ex == 2 && oh == 0) //If there are 2 Xs and 0 Os, there is a chance to stop the user from winning, computer will save that for later
                     {
                         r = i;
                         twoXs = true;
@@ -122,7 +122,7 @@ public class TicTacToeGame
                             valid = true;
                             twoOs = false;
                             twoXs = false;
-                            System.out.println("Placing O at 1");
+                            System.out.println("Placing O at 1"); //A checker to make sure everything runs correctly
                             break;
                         }
                     }
@@ -140,7 +140,7 @@ public class TicTacToeGame
                         }
                     }
                 }
-                if(valid)
+                if(valid) //If O has been placed in a valid spot already, skip to the next turn
                 {
                     break;
                 }
@@ -187,7 +187,7 @@ public class TicTacToeGame
                         }
                     }
                 }
-                else if(twoXs && bestRow == 4)
+                else if(twoXs && bestRow == 4) //Uses 4 to see if a bestRow has been determined elsewhere, if it has, saves time and skips
                 {
                     for(int j = 0; j < 3; j++)
                     {
@@ -298,7 +298,7 @@ public class TicTacToeGame
                     System.out.println("Placing O at 5");
                     break;
                 }
-                while(!valid)
+                while(!valid) //If nothing needs to be placed anywhere immediately select a random place
                 {
                     computerRow = (int)(Math.random()*3);
                     computerColumn = (int)(Math.random()*3);
@@ -342,7 +342,7 @@ public class TicTacToeGame
         }
     }
 
-    public boolean checkWin()
+    public boolean checkWin() //Checks to see if there is a winner or if the board has been filled all of the way
     {
         boolean full = true;
         for(int i = 0; i < 3; i++)
